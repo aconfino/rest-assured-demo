@@ -11,7 +11,7 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.path.xml.XmlPath;
 
 @SuppressWarnings("rawtypes")
-public class BasicTest {
+public class RequestTest {
 	
 	private String latitude = "40.0344";
 	private String longitude = "-75.5144";
@@ -19,7 +19,7 @@ public class BasicTest {
 	private String url = "http://api.openweathermap.org/data/2.5/weather?q=malvern,pa";
 	
 	@Test
-	public void simpleGetTest(){
+	public void getTest(){
 		given().
 			param("lat", latitude).
 			param("lon", longitude).
@@ -30,7 +30,7 @@ public class BasicTest {
 	}
 	
 	@Test
-	public void simplePostTest(){
+	public void postTest(){
 		given().
 			queryParam("lat", latitude).
 			queryParam("lon", longitude).
