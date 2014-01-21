@@ -1,13 +1,13 @@
 package com.confino.demo;
 
-import static com.jayway.restassured.RestAssured.get;
-import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertTrue;
+import static com.jayway.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.jayway.restassured.response.ResponseBody;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.path.json.JsonPath;
 
 @SuppressWarnings("rawtypes")
 public class BasicTest {
@@ -23,6 +23,7 @@ public class BasicTest {
           when().
             get("http://api.openweathermap.org/data/2.1/find/city").
           then().
+          	contentType("text/html").
             body(containsString("Sanatoga"));
 	}
 	
@@ -39,14 +40,32 @@ public class BasicTest {
 	}
 	
 	@Test
-	public void basicTest(){
-	  ResponseBody body = get(url).body();
-	  
-          assertTrue(body.jsonPath().getString("list.id[0]").equals("5210764"));
-	  assertTrue(body.jsonPath().getString("list.distance[0]").equals("2.68"));
-          assertTrue(body.jsonPath().getString("list.coord[0].lon").equals("-75.59518"));
-	  assertTrue(body.jsonPath().getString("list.coord[0].lat").equals("40.2451"));
-          assertTrue(body.jsonPath().getString("list.name[0]").equals("Sanatoga"));
+	public void contentTypeStatusCodeTest(){
+		expect().
+			contentType(ContentType.HTML).
+		and().
+			statusCode(200).
+		when().
+			get(url);
+	}
+	
+	@Test
+	public void headerTest(){			  
+	  get(url).
+	  	then().
+	  		assertThat().header("Access-Control-Allow-Methods", "GET, POST").
+	  	and().
+	  		assertThat().header("Transfer-Encoding", "chunked");
+	}
+	
+	@Test
+	public void jsonBodyTest(){
+		 JsonPath jsonPath = get(url).body().jsonPath();
+		 assertEquals(jsonPath.getString("list.id[0]"), "5210764");
+		 assertEquals(jsonPath.getString("list.distance[0]"), "2.68");
+	     assertEquals(jsonPath.getString("list.coord[0].lon"), "-75.59518");
+		 assertEquals(jsonPath.getString("list.coord[0].lat"), "40.2451");
+	     assertEquals(jsonPath.getString("list.name[0]"), "Sanatoga");
 	}
 
 }
