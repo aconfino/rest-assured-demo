@@ -14,12 +14,12 @@ public class SimpleControllerTest {
 		RestAssuredMockMvc.standaloneSetup(new SimpleController());
 		
 		given().
-			param("name", "Charles").
+			param("name", "Mr. McNabb").
 		when().
 			get("/message").
 		then().
 			statusCode(200).body("id", equalTo(1)).
-			body("content", equalTo("Hello, Charles!"));
+			body("message", equalTo("Hello, Mr. McNabb!"));
 	}
 
 }
