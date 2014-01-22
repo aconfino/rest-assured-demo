@@ -61,7 +61,18 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<!-- needed for controllers to return JSON -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.12</version>
+		</dependency>
+		<!-- needed for controllers to return XML -->
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb</artifactId>
+			<version>2.1.9</version>
+		</dependency>
 	</dependencies>
 
 </project>
